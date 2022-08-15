@@ -17,13 +17,4 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname, :last_name_kannzi, :first_name_kannzi, :last_name_katakana, :first_name_katakana, :birthday])
   end
 
-  def user_error_handling
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to root_path
-    else
-      render :new
-    end
-  end
-
 end
