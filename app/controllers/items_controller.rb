@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
   private
   #送るデータを設定
   def item_params
-    params.require(:items).permit(:name,:explanation ,:category_id ,:situation_id ,:load_id ,:area_id, :deadline_id ,:price ).merge(user_id: current_user.id)
+    params.require(:item).permit(:name,:explanation ,:category_id ,:situation_id ,:load_id ,:area_id, :deadline_id ,:price ).merge(user_id: current_user.id)
   end
 end
 
