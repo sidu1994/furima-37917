@@ -8,5 +8,10 @@ FactoryBot.define do
     area_id        {'2'}
     deadline_id    {'2'}
     price         {'1000'}
+    association :user
+
+    after(:build) do |item|
+      item.image.attach(io: File.open('public/image/test_image.jpg'), filename: 'test_image.jpg')
+     end
   end
 end
