@@ -1,13 +1,12 @@
 class ItemsController < ApplicationController
-  
   def index
   end
- 
+
   def new
-    unless user_signed_in?
+    if user_signed_in?
+      @item = Item.new
+    else
       redirect_to new_user_session_path
-      else
-    @item = Item.new
     end
   end
 
@@ -17,13 +16,15 @@ class ItemsController < ApplicationController
       redirect_to root_path
     else
 
-    render :new
+      render :new
     end
   end
+
   private
-  #送るデータを設定
+
+  # 送るデータを設定
   def item_params
-    params.require(:item).permit(:image,:name,:explanation ,:category_id ,:situation_id ,:load_id ,:area_id, :deadline_id ,:price ).merge(user_id: current_user.id)
+    params.require(:item).permit(:image, :name, :explanation, :category_id, :situation_id, :load_id, :area_id, :deadline_id,
+                                 :price).merge(user_id: current_user.id)
   end
 end
-
