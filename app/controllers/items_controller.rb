@@ -1,8 +1,7 @@
 class ItemsController < ApplicationController
   def index
-    @items = Item.all
     @items = Item.all.order(created_at: :desc)
-    @purchases = Purchase.all
+
   end
 
   def new
