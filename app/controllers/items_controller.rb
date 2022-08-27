@@ -1,13 +1,13 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!,except: [:index]
+
   def index
+    @items = Item.all.order(created_at: :desc)
+
   end
 
   def new
-    if user_signed_in?
       @item = Item.new
-    else
-      redirect_to new_user_session_path
-    end
   end
 
   def create
@@ -15,7 +15,6 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path
     else
-
       render :new
     end
   end
