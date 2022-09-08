@@ -9,6 +9,7 @@ class ShippingsController < ApplicationController
     @item = Item.find(params[:item_id])
     @purchase_shipping = PurchaseShipping.new(shipping_params)
     if @purchase_shipping.valid?
+      pay_item
       @purchase_shipping.save
       return redirect_to root_path
     else
@@ -19,7 +20,17 @@ class ShippingsController < ApplicationController
   private
 
   def shipping_params
-    params.require(:purchase_shipping).permit(:post_code,:area_id,:municipality,:address,:building,:phone_number  ).merge(user_id: current_user.id,item_id: @item.id )
+    params.require(:purchase_shipping).permit(:post_code,:area_id,:municipality,:address,:building,:phone_number  ).merge(user_id: current_user.id,item_id: @item.id ,token: params[:token])
+  end
+
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Charge.create(
+      amount: @item.price,
+      card:  shipping_params[:token],
+      currency: 'jpy'
+    )
   end
 end
+
 

@@ -1,7 +1,7 @@
 class PurchaseShipping
 
   include ActiveModel::Model
-  attr_accessor :post_code, :area_id, :municipality, :address, :building, :phone_number, :user_id, :item_id
+  attr_accessor :post_code, :area_id, :municipality, :address, :building, :phone_number, :user_id, :item_id, :token
 
 
   with_options presence: true do
@@ -11,6 +11,7 @@ class PurchaseShipping
   validates :phone_number, presence: true , format: { with: /\A[0-9]+\z/ }
   validates :user_id
   validates :item_id
+  validates :token
   end
   validates :building,  format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }, allow_blank: true
   validates :area_id,  numericality: { other_than: 1, message: " can't be blank" }
