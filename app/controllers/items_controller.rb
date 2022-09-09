@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.all.order(created_at: :desc)
-    @purchases =Purchase.all
+    @purchases = Purchase.all
   end
 
   def new
@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @purchases =Purchase.all
+    @purchases = Purchase.all
   end
 
   def edit
@@ -37,10 +37,8 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    if current_user == @item.user
-      @item.destroy  
-    end
-      redirect_to root_path
+    @item.destroy if current_user == @item.user
+    redirect_to root_path
   end
 
   private
