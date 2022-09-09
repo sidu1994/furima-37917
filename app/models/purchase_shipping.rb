@@ -5,10 +5,10 @@ class PurchaseShipping
 
 
   with_options presence: true do
-  validates :post_code, presence: true , format: { with: /\A[0-9]+\z/ }
+  validates :post_code, presence: true , format: {with: /\A[0-9]{3}-[0-9]{4}\z/, message: "is invalid. Include hyphen(-)"}
   validates :municipality, presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
   validates :address, presence: true , format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ } 
-  validates :phone_number, presence: true , format: { with: /\A[0-9]+\z/ }
+  validates :phone_number, presence: true , format: { with: /\A[0-9]{10,11}+\z/ }
   validates :user_id
   validates :item_id
   validates :token
