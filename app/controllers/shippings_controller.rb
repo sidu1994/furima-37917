@@ -1,15 +1,15 @@
 class ShippingsController < ApplicationController
+  before_action :set_item
   before_action :authenticate_user!
   def index
     @purchases = Purchase.all
-    @item = Item.find(params[:item_id])
     redirect_to root_path if current_user == @item.user
     redirect_to root_path if @purchases.exists?(item_id: "#{@item.id}")
+
     @purchase_shipping = PurchaseShipping.new
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_shipping = PurchaseShipping.new(shipping_params)
     if @purchase_shipping.valid?
       pay_item
@@ -35,5 +35,9 @@ class ShippingsController < ApplicationController
       card: shipping_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
   end
 end
