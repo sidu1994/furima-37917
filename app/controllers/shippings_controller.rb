@@ -2,9 +2,8 @@ class ShippingsController < ApplicationController
   before_action :set_item
   before_action :authenticate_user!
   def index
-    @purchases = Purchase.all
     redirect_to root_path if current_user == @item.user
-    redirect_to root_path if @purchases.exists?(item_id: "#{@item.id}")
+    redirect_to root_path if @item.purchase.present? 
 
     @purchase_shipping = PurchaseShipping.new
   end

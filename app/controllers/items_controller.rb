@@ -21,13 +21,13 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @purchases = Purchase.all
+
   end
 
   def edit
-    @purchases = Purchase.all
+
     redirect_to root_path if current_user != @item.user
-    redirect_to root_path if @purchases.exists?(item_id: "#{@item.id}")
+    redirect_to root_path if @item.purchase.present?
   end
 
   def update
