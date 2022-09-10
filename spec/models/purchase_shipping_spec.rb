@@ -4,6 +4,7 @@ RSpec.describe PurchaseShipping, type: :model do
   before do
     item = FactoryBot.create(:item)
     @purchase_shipping = FactoryBot.build(:purchase_shipping, user_id: item.user.id, item_id: item.id)
+    sleep 0.1
   end
 
   context '内容に問題ない場合' do
