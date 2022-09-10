@@ -2,17 +2,26 @@ require 'rails_helper'
 
 RSpec.describe PurchaseShipping, type: :model do
   before do
-    user = FactoryBot.create(:user)
-    @purchase_shipping = FactoryBot.build(:purchase_shipping, user_id: user.id)
+    item = FactoryBot.create(:item)
+    @purchase_shipping = FactoryBot.build(:purchase_shipping, user_id: item.user.id, item_id: item.id)
   end
 
   context '内容に問題ない場合' do
     it 'データ全てが正しければあれば保存ができること' do
       expect(@purchase_shipping).to be_valid
     end
+    it '建物名が空白でも購入できる' do
+      @purchase_shipping.building = nil
+      expect(@purchase_shipping).to be_valid
+    end
   end
 
   context '内容に問題がある場合' do
+    it 'tokenが空では登録できない' do
+      @purchase_shipping.token = nil
+      @purchase_shipping.valid?
+      expect(@purchase_shipping.errors.full_messages).to include("Token can't be blank")
+    end
     it '郵便番号が空では保存ができないこと' do
       @purchase_shipping.post_code = nil
       @purchase_shipping.valid?
@@ -59,10 +68,20 @@ RSpec.describe PurchaseShipping, type: :model do
       @purchase_shipping.valid?
       expect(@purchase_shipping.errors.full_messages).to include('Phone number is invalid')
     end
+    it '電話番号に半角数字以外が含まれていると登録できない' do
+      @purchase_shipping.phone_number = '00０１２３４５６７８'
+      @purchase_shipping.valid?
+      expect(@purchase_shipping.errors.full_messages).to include('Phone number is invalid')
+    end
     it 'userが紐付いていないと保存できないこと' do
       @purchase_shipping.user_id = nil
       @purchase_shipping.valid?
       expect(@purchase_shipping.errors.full_messages).to include("User can't be blank")
+    end
+    it 'itemが紐付いていないと保存できないこと' do
+      @purchase_shipping.item_id = nil
+      @purchase_shipping.valid?
+      expect(@purchase_shipping.errors.full_messages).to include("Item can't be blank")
     end
   end
 end
