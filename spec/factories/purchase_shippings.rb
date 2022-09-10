@@ -7,6 +7,5 @@ FactoryBot.define do
     token { 'tok_abcdefghijk00000000000000000' }
     building { 'テスト' }
     area_id { 3 }
-    item_id { 1 }
   end
 end

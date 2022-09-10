@@ -4,14 +4,13 @@ class PurchaseShipping
 
   with_options presence: true do
     validates :post_code, presence: true, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'is invalid. Include hyphen(-)' }
-    validates :municipality, presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
-    validates :address, presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
+    validates :municipality, presence: true
+    validates :address, presence: true
     validates :phone_number, presence: true, format: { with: /\A[0-9]{10,11}+\z/ }
     validates :user_id
     validates :item_id
     validates :token
   end
-  validates :building, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }, allow_blank: true
   validates :area_id, numericality: { other_than: 1, message: " can't be blank" }
   def save
     purchase = Purchase.create(item_id: item_id, user_id: user_id)
