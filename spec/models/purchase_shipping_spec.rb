@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe PurchaseShipping, type: :model do
   before do
     item = FactoryBot.create(:item)
-    @purchase_shipping = FactoryBot.build(:purchase_shipping, user_id: item.user.id, item_id: item.id)
-    sleep 0.1
+    user = FactoryBot.create(:user)
+    @purchase_shipping = FactoryBot.build(:purchase_shipping, user_id: user.id, item_id: item.id)
+    sleep 0.3
   end
 
   context '内容に問題ない場合' do
@@ -26,8 +27,7 @@ RSpec.describe PurchaseShipping, type: :model do
     it '郵便番号が空では保存ができないこと' do
       @purchase_shipping.post_code = nil
       @purchase_shipping.valid?
-      expect(@purchase_shipping.errors.full_messages).to include("Post code can't be blank",
-                                                                 'Post code is invalid. Include hyphen(-)')
+      expect(@purchase_shipping.errors.full_messages).to include("Post code can't be blank")
     end
     it '郵便番号にハイフンが入っていないと保存できない' do
       @purchase_shipping.post_code = '1234567'
