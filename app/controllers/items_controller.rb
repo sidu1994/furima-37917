@@ -24,6 +24,7 @@ class ItemsController < ApplicationController
 
   def edit
     redirect_to root_path if current_user != @item.user
+    redirect_to root_path if @item.purchase.present?
   end
 
   def update
@@ -35,10 +36,8 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    if current_user == @item.user
-      @item.destroy  
-    end
-      redirect_to root_path
+    @item.destroy if current_user == @item.user
+    redirect_to root_path
   end
 
   private
