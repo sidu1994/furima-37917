@@ -1,11 +1,13 @@
 class ShippingsController < ApplicationController
   before_action :set_item
   before_action :authenticate_user!
-  
+
   def index
-    redirect_to root_path if current_user == @item.user
-    redirect_to root_path if @item.purchase.present?
+    if current_user == @item.user ||  @item.purchase.present? 
+      redirect_to root_path 
+    else
     @purchase_shipping = PurchaseShipping.new
+    end
   end
 
   def create
